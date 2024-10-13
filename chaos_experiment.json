@@ -1,0 +1,58 @@
+{
+    "version": "1.0.0",
+    "title": "Chaos Monkey Experiment for Docker Compose",
+    "description": "Este experimento simula a falha aleatória de containers para testar a resiliência da aplicação.",
+    "tags": ["docker", "chaos", "monkey"],
+    "steady-state-hypothesis": {
+      "title": "Estado estável esperado",
+      "probes": [
+        {
+          "type": "probe",
+          "name": "backend-running",
+          "tolerance": "0",
+          "provider": {
+            "type": "command",
+            "name": "check_backend_running",
+            "command": "powershell -Command \"if ((docker inspect -f '{{{{.State.Running}}}}' sistemas_distribuidos_backend_1) -eq 'true') { exit 0 } else { exit 1 }\""
+          },
+          "mode": "active",
+          "tolerance_type": "probe"
+        },
+        {
+          "type": "probe",
+          "name": "frontend-running",
+          "tolerance": "0",
+          "provider": {
+            "type": "command",
+            "name": "check_frontend_running",
+            "command": "powershell -Command \"if ((docker inspect -f '{{{{.State.Running}}}}' sistemas_distribuidos_frontend_1) -eq 'true') { exit 0 } else { exit 1 }\""
+          },
+          "mode": "active",
+          "tolerance_type": "probe"
+        }
+      ]
+    },
+    "method": [
+      {
+        "name": "Kill Backend Container",
+        "type": "action",
+        "provider": {
+          "type": "command",
+          "name": "kill_backend",
+          "command": "docker kill sistemas_distribuidos_backend_1"
+        }
+      }
+    ],
+    "rollbacks": [
+      {
+        "name": "Restart Backend Container",
+        "type": "action",
+        "provider": {
+          "type": "command",
+          "name": "start_backend",
+          "command": "docker start sistemas_distribuidos_backend_1"
+        }
+      }
+    ]
+  }
+  
