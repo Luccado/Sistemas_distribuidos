@@ -1,0 +1,391 @@
+{
+  "chaoslib-version": "1.44.0",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "node": "DESKTOP-Q96LM8H",
+  "experiment": {
+    "version": "1.0.0",
+    "title": "Chaos Experiment for Distributed Systems Containers",
+    "description": "Simulating chaos scenarios for frontend and backend containers",
+    "method": [
+      {
+        "name": "check_containers_running_before_chaos",
+        "type": "probe",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "ps",
+            "--filter",
+            "name=sistemas_distribuidos-frontend-1",
+            "--filter",
+            "name=sistemas_distribuidos-backend-1"
+          ]
+        },
+        "tolerance": {
+          "type": "probe",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1",
+            "sistemas_distribuidos-backend-1"
+          ]
+        }
+      },
+      {
+        "name": "inject_network_latency_on_frontend",
+        "type": "action",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "exec",
+            "sistemas_distribuidos-frontend-1",
+            "tc",
+            "qdisc",
+            "add",
+            "dev",
+            "eth0",
+            "root",
+            "netem",
+            "delay",
+            "1000ms",
+            "500ms"
+          ]
+        }
+      },
+      {
+        "name": "check_frontend_status_during_latency",
+        "type": "probe",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1"
+          ]
+        },
+        "tolerance": {
+          "type": "probe",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1"
+          ]
+        }
+      },
+      {
+        "name": "stop_backend_container",
+        "type": "action",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "stop",
+            "sistemas_distribuidos-backend-1"
+          ]
+        }
+      },
+      {
+        "name": "check_frontend_status_during_backend_crash",
+        "type": "probe",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1"
+          ]
+        },
+        "tolerance": {
+          "type": "probe",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1"
+          ]
+        }
+      },
+      {
+        "name": "restart_backend_container",
+        "type": "action",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "start",
+            "sistemas_distribuidos-backend-1"
+          ]
+        }
+      },
+      {
+        "name": "check_backend_status_after_restart",
+        "type": "probe",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-backend-1"
+          ]
+        },
+        "tolerance": {
+          "type": "probe",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-backend-1"
+          ]
+        }
+      }
+    ],
+    "dry": null
+  },
+  "start": "2024-11-05T02:17:17.239033+00:00",
+  "status": "completed",
+  "deviated": false,
+  "steady_states": {
+    "before": null,
+    "after": null,
+    "during": []
+  },
+  "run": [
+    {
+      "activity": {
+        "name": "check_containers_running_before_chaos",
+        "type": "probe",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "ps",
+            "--filter",
+            "name=sistemas_distribuidos-frontend-1",
+            "--filter",
+            "name=sistemas_distribuidos-backend-1"
+          ]
+        },
+        "tolerance": {
+          "type": "probe",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1",
+            "sistemas_distribuidos-backend-1"
+          ]
+        }
+      },
+      "output": {
+        "status": 0,
+        "stdout": "CONTAINER ID   IMAGE                            COMMAND                  CREATED             STATUS             PORTS                    NAMES\n5beb49d1f85e   sistemas_distribuidos-frontend   \"/docker-entrypoint.…\"   About an hour ago   Up About an hour   0.0.0.0:3000->80/tcp     sistemas_distribuidos-frontend-1\n46468c1cb40e   sistemas_distribuidos-backend    \"python app.py\"          About an hour ago   Up 40 seconds      0.0.0.0:5000->5000/tcp   sistemas_distribuidos-backend-1\n",
+        "stderr": ""
+      },
+      "start": "2024-11-05T02:17:17.240034+00:00",
+      "status": "succeeded",
+      "end": "2024-11-05T02:17:17.388720+00:00",
+      "duration": 0.148686
+    },
+    {
+      "activity": {
+        "name": "inject_network_latency_on_frontend",
+        "type": "action",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "exec",
+            "sistemas_distribuidos-frontend-1",
+            "tc",
+            "qdisc",
+            "add",
+            "dev",
+            "eth0",
+            "root",
+            "netem",
+            "delay",
+            "1000ms",
+            "500ms"
+          ]
+        }
+      },
+      "output": {
+        "status": 126,
+        "stdout": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"tc\": executable file not found in $PATH: unknown\r\n",
+        "stderr": ""
+      },
+      "start": "2024-11-05T02:17:17.389243+00:00",
+      "status": "succeeded",
+      "end": "2024-11-05T02:17:17.600238+00:00",
+      "duration": 0.210995
+    },
+    {
+      "activity": {
+        "name": "check_frontend_status_during_latency",
+        "type": "probe",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1"
+          ]
+        },
+        "tolerance": {
+          "type": "probe",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1"
+          ]
+        }
+      },
+      "output": {
+        "status": 0,
+        "stdout": "true\n",
+        "stderr": ""
+      },
+      "start": "2024-11-05T02:17:17.600764+00:00",
+      "status": "succeeded",
+      "end": "2024-11-05T02:17:17.721195+00:00",
+      "duration": 0.120431
+    },
+    {
+      "activity": {
+        "name": "stop_backend_container",
+        "type": "action",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "stop",
+            "sistemas_distribuidos-backend-1"
+          ]
+        }
+      },
+      "output": {
+        "status": 0,
+        "stdout": "sistemas_distribuidos-backend-1\n",
+        "stderr": ""
+      },
+      "start": "2024-11-05T02:17:17.721721+00:00",
+      "status": "succeeded",
+      "end": "2024-11-05T02:17:28.291279+00:00",
+      "duration": 10.569558
+    },
+    {
+      "activity": {
+        "name": "check_frontend_status_during_backend_crash",
+        "type": "probe",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1"
+          ]
+        },
+        "tolerance": {
+          "type": "probe",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-frontend-1"
+          ]
+        }
+      },
+      "output": {
+        "status": 0,
+        "stdout": "true\n",
+        "stderr": ""
+      },
+      "start": "2024-11-05T02:17:28.291807+00:00",
+      "status": "succeeded",
+      "end": "2024-11-05T02:17:28.409490+00:00",
+      "duration": 0.117683
+    },
+    {
+      "activity": {
+        "name": "restart_backend_container",
+        "type": "action",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "start",
+            "sistemas_distribuidos-backend-1"
+          ]
+        }
+      },
+      "output": {
+        "status": 0,
+        "stdout": "sistemas_distribuidos-backend-1\n",
+        "stderr": ""
+      },
+      "start": "2024-11-05T02:17:28.410023+00:00",
+      "status": "succeeded",
+      "end": "2024-11-05T02:17:28.944545+00:00",
+      "duration": 0.534522
+    },
+    {
+      "activity": {
+        "name": "check_backend_status_after_restart",
+        "type": "probe",
+        "provider": {
+          "type": "process",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-backend-1"
+          ]
+        },
+        "tolerance": {
+          "type": "probe",
+          "path": "docker",
+          "arguments": [
+            "inspect",
+            "-f",
+            "{{.State.Running}}",
+            "sistemas_distribuidos-backend-1"
+          ]
+        }
+      },
+      "output": {
+        "status": 0,
+        "stdout": "true\n",
+        "stderr": ""
+      },
+      "start": "2024-11-05T02:17:28.945147+00:00",
+      "status": "succeeded",
+      "end": "2024-11-05T02:17:29.076113+00:00",
+      "duration": 0.130966
+    }
+  ],
+  "rollbacks": [],
+  "end": "2024-11-05T02:17:29.076647+00:00",
+  "duration": 11.837614059448242
+}

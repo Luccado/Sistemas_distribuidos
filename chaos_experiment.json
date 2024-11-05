@@ -1,58 +1,172 @@
 {
-    "version": "1.0.0",
-    "title": "Chaos Monkey Experiment for Docker Compose",
-    "description": "Este experimento simula a falha aleatória de containers para testar a resiliência da aplicação.",
-    "tags": ["docker", "chaos", "monkey"],
-    "steady-state-hypothesis": {
-      "title": "Estado estável esperado",
-      "probes": [
-        {
-          "type": "probe",
-          "name": "backend-running",
-          "tolerance": "0",
-          "provider": {
-            "type": "command",
-            "name": "check_backend_running",
-            "command": "powershell -Command \"if ((docker inspect -f '{{{{.State.Running}}}}' sistemas_distribuidos_backend_1) -eq 'true') { exit 0 } else { exit 1 }\""
-          },
-          "mode": "active",
-          "tolerance_type": "probe"
-        },
-        {
-          "type": "probe",
-          "name": "frontend-running",
-          "tolerance": "0",
-          "provider": {
-            "type": "command",
-            "name": "check_frontend_running",
-            "command": "powershell -Command \"if ((docker inspect -f '{{{{.State.Running}}}}' sistemas_distribuidos_frontend_1) -eq 'true') { exit 0 } else { exit 1 }\""
-          },
-          "mode": "active",
-          "tolerance_type": "probe"
-        }
-      ]
+  "version": "1.0.0",
+  "title": "Chaos Experiment for Distributed Systems Containers",
+  "description": "Simulating chaos scenarios for frontend and backend containers",
+  "method": [
+    {
+      "name": "check_containers_running_before_chaos",
+      "type": "probe",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "ps",
+          "--filter", "name=sistemas_distribuidos-frontend-1",
+          "--filter", "name=sistemas_distribuidos-backend-1"
+        ]
+      },
+      "tolerance": {
+        "type": "probe",
+        "path": "docker",
+        "arguments": [
+          "inspect", "-f", "{{.State.Running}}", 
+          "sistemas_distribuidos-frontend-1", 
+          "sistemas_distribuidos-backend-1"
+        ]
+      }
     },
-    "method": [
-      {
-        "name": "Kill Backend Container",
-        "type": "action",
-        "provider": {
-          "type": "command",
-          "name": "kill_backend",
-          "command": "docker kill sistemas_distribuidos_backend_1"
-        }
+    {
+      "name": "inject_network_latency_on_frontend",
+      "type": "action",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "exec", "sistemas_distribuidos-frontend-1",
+          "tc", "qdisc", "add", "dev", "eth0", 
+          "root", "netem", "delay", "1000ms", "500ms"
+        ]
       }
-    ],
-    "rollbacks": [
-      {
-        "name": "Restart Backend Container",
-        "type": "action",
-        "provider": {
-          "type": "command",
-          "name": "start_backend",
-          "command": "docker start sistemas_distribuidos_backend_1"
-        }
+    },
+    {
+      "name": "check_frontend_status_during_latency",
+      "type": "probe",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "inspect", "-f", "{{.State.Running}}", 
+          "sistemas_distribuidos-frontend-1"
+        ]
+      },
+      "tolerance": {
+        "type": "probe",
+        "path": "docker",
+        "arguments": [
+          "inspect", "-f", "{{.State.Running}}", 
+          "sistemas_distribuidos-frontend-1"
+        ]
       }
-    ]
-  }
-  
+    },
+    {
+      "name": "stop_backend_container",
+      "type": "action",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "stop", "sistemas_distribuidos-backend-1"
+        ]
+      }
+    },
+    {
+      "name": "check_frontend_status_during_backend_crash",
+      "type": "probe",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "inspect", "-f", "{{.State.Running}}", 
+          "sistemas_distribuidos-frontend-1"
+        ]
+      },
+      "tolerance": {
+        "type": "probe",
+        "path": "docker",
+        "arguments": [
+          "inspect", "-f", "{{.State.Running}}", 
+          "sistemas_distribuidos-frontend-1"
+        ]
+      }
+    },
+    {
+      "name": "restart_backend_container",
+      "type": "action",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "start", "sistemas_distribuidos-backend-1"
+        ]
+      }
+    },
+    {
+      "name": "check_backend_status_after_restart",
+      "type": "probe",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "inspect", "-f", "{{.State.Running}}", 
+          "sistemas_distribuidos-backend-1"
+        ]
+      },
+      "tolerance": {
+        "type": "probe",
+        "path": "docker",
+        "arguments": [
+          "inspect", "-f", "{{.State.Running}}", 
+          "sistemas_distribuidos-backend-1"
+        ]
+      }
+    },
+    {
+      "name": "inject_cpu_hog_on_backend",
+      "type": "action",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "exec", "sistemas_distribuidos-backend-1",
+          "yes", " >", "/dev/null"
+        ]
+      }
+    },
+    {
+      "name": "inject_disk_failure_on_frontend",
+      "type": "action",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "exec", "sistemas_distribuidos-frontend-1",
+          "rm", "-rf", "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "remove_network_latency_on_frontend",
+      "type": "action",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "exec", "sistemas_distribuidos-frontend-1",
+          "tc", "qdisc", "del", "dev", "eth0", "root", "netem"
+        ]
+      }
+    },
+    {
+      "name": "stop_cpu_hog_on_backend",
+      "type": "action",
+      "provider": {
+        "type": "process",
+        "path": "docker",
+        "arguments": [
+          "exec", "sistemas_distribuidos-backend-1",
+          "pkill", "-f", "yes > /dev/null"
+        ]
+      }
+    }
+  ]
+}
