@@ -154,7 +154,7 @@
     ],
     "dry": null
   },
-  "start": "2024-11-05T02:17:17.239033+00:00",
+  "start": "2024-11-05T02:46:47.445335+00:00",
   "status": "completed",
   "deviated": false,
   "steady_states": {
@@ -192,13 +192,13 @@
       },
       "output": {
         "status": 0,
-        "stdout": "CONTAINER ID   IMAGE                            COMMAND                  CREATED             STATUS             PORTS                    NAMES\n5beb49d1f85e   sistemas_distribuidos-frontend   \"/docker-entrypoint.…\"   About an hour ago   Up About an hour   0.0.0.0:3000->80/tcp     sistemas_distribuidos-frontend-1\n46468c1cb40e   sistemas_distribuidos-backend    \"python app.py\"          About an hour ago   Up 40 seconds      0.0.0.0:5000->5000/tcp   sistemas_distribuidos-backend-1\n",
+        "stdout": "CONTAINER ID   IMAGE                            COMMAND                  CREATED       STATUS         PORTS                    NAMES\n5beb49d1f85e   sistemas_distribuidos-frontend   \"/docker-entrypoint.…\"   2 hours ago   Up 2 hours     0.0.0.0:3000->80/tcp     sistemas_distribuidos-frontend-1\n46468c1cb40e   sistemas_distribuidos-backend    \"python app.py\"          2 hours ago   Up 7 minutes   0.0.0.0:5000->5000/tcp   sistemas_distribuidos-backend-1\n",
         "stderr": ""
       },
-      "start": "2024-11-05T02:17:17.240034+00:00",
+      "start": "2024-11-05T02:46:47.446335+00:00",
       "status": "succeeded",
-      "end": "2024-11-05T02:17:17.388720+00:00",
-      "duration": 0.148686
+      "end": "2024-11-05T02:46:47.564562+00:00",
+      "duration": 0.118227
     },
     {
       "activity": {
@@ -228,10 +228,10 @@
         "stdout": "OCI runtime exec failed: exec failed: unable to start container process: exec: \"tc\": executable file not found in $PATH: unknown\r\n",
         "stderr": ""
       },
-      "start": "2024-11-05T02:17:17.389243+00:00",
+      "start": "2024-11-05T02:46:47.564562+00:00",
       "status": "succeeded",
-      "end": "2024-11-05T02:17:17.600238+00:00",
-      "duration": 0.210995
+      "end": "2024-11-05T02:46:47.729605+00:00",
+      "duration": 0.165043
     },
     {
       "activity": {
@@ -263,10 +263,10 @@
         "stdout": "true\n",
         "stderr": ""
       },
-      "start": "2024-11-05T02:17:17.600764+00:00",
+      "start": "2024-11-05T02:46:47.730143+00:00",
       "status": "succeeded",
-      "end": "2024-11-05T02:17:17.721195+00:00",
-      "duration": 0.120431
+      "end": "2024-11-05T02:46:47.851955+00:00",
+      "duration": 0.121812
     },
     {
       "activity": {
@@ -286,10 +286,10 @@
         "stdout": "sistemas_distribuidos-backend-1\n",
         "stderr": ""
       },
-      "start": "2024-11-05T02:17:17.721721+00:00",
+      "start": "2024-11-05T02:46:47.852489+00:00",
       "status": "succeeded",
-      "end": "2024-11-05T02:17:28.291279+00:00",
-      "duration": 10.569558
+      "end": "2024-11-05T02:46:58.327966+00:00",
+      "duration": 10.475477
     },
     {
       "activity": {
@@ -321,10 +321,10 @@
         "stdout": "true\n",
         "stderr": ""
       },
-      "start": "2024-11-05T02:17:28.291807+00:00",
+      "start": "2024-11-05T02:46:58.328992+00:00",
       "status": "succeeded",
-      "end": "2024-11-05T02:17:28.409490+00:00",
-      "duration": 0.117683
+      "end": "2024-11-05T02:46:58.444520+00:00",
+      "duration": 0.115528
     },
     {
       "activity": {
@@ -344,10 +344,10 @@
         "stdout": "sistemas_distribuidos-backend-1\n",
         "stderr": ""
       },
-      "start": "2024-11-05T02:17:28.410023+00:00",
+      "start": "2024-11-05T02:46:58.444520+00:00",
       "status": "succeeded",
-      "end": "2024-11-05T02:17:28.944545+00:00",
-      "duration": 0.534522
+      "end": "2024-11-05T02:46:58.853340+00:00",
+      "duration": 0.40882
     },
     {
       "activity": {
@@ -379,13 +379,13 @@
         "stdout": "true\n",
         "stderr": ""
       },
-      "start": "2024-11-05T02:17:28.945147+00:00",
+      "start": "2024-11-05T02:46:58.853340+00:00",
       "status": "succeeded",
-      "end": "2024-11-05T02:17:29.076113+00:00",
-      "duration": 0.130966
+      "end": "2024-11-05T02:46:58.969872+00:00",
+      "duration": 0.116532
     }
   ],
   "rollbacks": [],
-  "end": "2024-11-05T02:17:29.076647+00:00",
-  "duration": 11.837614059448242
+  "end": "2024-11-05T02:46:58.971378+00:00",
+  "duration": 11.526042222976685
 }

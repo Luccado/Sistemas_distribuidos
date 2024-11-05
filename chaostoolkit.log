@@ -1,75 +1,144 @@
-[36m[2024-11-04 22:17:16 DEBUG] [__init__:101][39m ###############################################################################
-[36m[2024-11-04 22:17:16 DEBUG] [__init__:102][39m Running command 'run'
-[36m[2024-11-04 22:17:16 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
-[36m[2024-11-04 22:17:17 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'loader'
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'loader'
-[36m[2024-11-04 22:17:17 DEBUG] [caching:24][39m Building activity cache...
-[36m[2024-11-04 22:17:17 DEBUG] [caching:35][39m Cached 7 activities
-[32m[2024-11-04 22:17:17 INFO] [experiment:59][39m Validating the experiment's syntax
-[36m[2024-11-04 22:17:17 DEBUG] [configuration:64][39m Loading configuration...
-[36m[2024-11-04 22:17:17 DEBUG] [secret:79][39m Loading secrets...
-[36m[2024-11-04 22:17:17 DEBUG] [secret:104][39m Done loading secrets
-[32m[2024-11-04 22:17:17 INFO] [experiment:112][39m Experiment looks valid
-[36m[2024-11-04 22:17:17 DEBUG] [caching:42][39m Clearing activities cache
-[36m[2024-11-04 22:17:17 DEBUG] [run:224][39m Runtime strategies: hypothesis - default / rollbacks - default
-[36m[2024-11-04 22:17:17 DEBUG] [caching:24][39m Building activity cache...
-[36m[2024-11-04 22:17:17 DEBUG] [caching:35][39m Cached 7 activities
-[36m[2024-11-04 22:17:17 DEBUG] [configuration:64][39m Loading configuration...
-[36m[2024-11-04 22:17:17 DEBUG] [secret:79][39m Loading secrets...
-[36m[2024-11-04 22:17:17 DEBUG] [secret:104][39m Done loading secrets
-[36m[2024-11-04 22:17:17 DEBUG] [configuration:161][39m Loading dynamic configuration...
-[36m[2024-11-04 22:17:17 DEBUG] [exit:91][39m System 'Windows-11-10.0.22631-SP0' does not expose SIGUSR signals
-[32m[2024-11-04 22:17:17 INFO] [run:440][39m Running experiment: Chaos Experiment for Distributed Systems Containers
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:67][39m Initializing controls
-[32m[2024-11-04 22:17:17 INFO] [run:471][39m Steady-state strategy: default
-[32m[2024-11-04 22:17:17 INFO] [run:477][39m Rollbacks strategy: default
-[32m[2024-11-04 22:17:17 INFO] [run:485][39m No steady state hypothesis defined. That's ok, just exploring.
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'experiment'
-[32m[2024-11-04 22:17:17 INFO] [run:778][39m Playing your experiment's method now...
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'method'
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[32m[2024-11-04 22:17:17 INFO] [activity:232][39m Probe: check_containers_running_before_chaos
-[36m[2024-11-04 22:17:17 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'ps', '--filter', 'name=sistemas_distribuidos-frontend-1', '--filter', 'name=sistemas_distribuidos-backend-1']
-[36m[2024-11-04 22:17:17 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'CONTAINER ID   IMAGE                            COMMAND                  CREATED             STATUS             PORTS                    NAMES\n5beb49d1f85e   sistemas_distribuidos-frontend   "/docker-entrypoint.…"   About an hour ago   Up About an hour   0.0.0.0:3000->80/tcp     sistemas_distribuidos-frontend-1\n46468c1cb40e   sistemas_distribuidos-backend    "python app.py"          About an hour ago   Up 40 seconds      0.0.0.0:5000->5000/tcp   sistemas_distribuidos-backend-1\n', 'stderr': ''}'
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[32m[2024-11-04 22:17:17 INFO] [activity:232][39m Action: inject_network_latency_on_frontend
-[36m[2024-11-04 22:17:17 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'exec', 'sistemas_distribuidos-frontend-1', 'tc', 'qdisc', 'add', 'dev', 'eth0', 'root', 'netem', 'delay', '1000ms', '500ms']
-[33m[2024-11-04 22:17:17 WARNING] [process:70][39m This process returned a non-zero exit code. This may indicate some error and not what you expected. Please have a look at the logs.
-[36m[2024-11-04 22:17:17 DEBUG] [activity:260][39m   => succeeded with '{'status': 126, 'stdout': 'OCI runtime exec failed: exec failed: unable to start container process: exec: "tc": executable file not found in $PATH: unknown\r\n', 'stderr': ''}'
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[32m[2024-11-04 22:17:17 INFO] [activity:232][39m Probe: check_frontend_status_during_latency
-[36m[2024-11-04 22:17:17 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'inspect', '-f', '{{.State.Running}}', 'sistemas_distribuidos-frontend-1']
-[36m[2024-11-04 22:17:17 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'true\n', 'stderr': ''}'
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[36m[2024-11-04 22:17:17 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[32m[2024-11-04 22:17:17 INFO] [activity:232][39m Action: stop_backend_container
-[36m[2024-11-04 22:17:17 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'stop', 'sistemas_distribuidos-backend-1']
-[36m[2024-11-04 22:17:28 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'sistemas_distribuidos-backend-1\n', 'stderr': ''}'
-[36m[2024-11-04 22:17:28 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[36m[2024-11-04 22:17:28 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[32m[2024-11-04 22:17:28 INFO] [activity:232][39m Probe: check_frontend_status_during_backend_crash
-[36m[2024-11-04 22:17:28 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'inspect', '-f', '{{.State.Running}}', 'sistemas_distribuidos-frontend-1']
-[36m[2024-11-04 22:17:28 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'true\n', 'stderr': ''}'
-[36m[2024-11-04 22:17:28 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[36m[2024-11-04 22:17:28 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[32m[2024-11-04 22:17:28 INFO] [activity:232][39m Action: restart_backend_container
-[36m[2024-11-04 22:17:28 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'start', 'sistemas_distribuidos-backend-1']
-[36m[2024-11-04 22:17:28 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'sistemas_distribuidos-backend-1\n', 'stderr': ''}'
-[36m[2024-11-04 22:17:28 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[36m[2024-11-04 22:17:28 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[32m[2024-11-04 22:17:28 INFO] [activity:232][39m Probe: check_backend_status_after_restart
-[36m[2024-11-04 22:17:28 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'inspect', '-f', '{{.State.Running}}', 'sistemas_distribuidos-backend-1']
-[36m[2024-11-04 22:17:29 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'true\n', 'stderr': ''}'
-[36m[2024-11-04 22:17:29 DEBUG] [__init__:472][39m No controls to apply on 'activity'
-[36m[2024-11-04 22:17:29 DEBUG] [__init__:472][39m No controls to apply on 'method'
-[32m[2024-11-04 22:17:29 INFO] [run:1072][39m Let's rollback...
-[36m[2024-11-04 22:17:29 DEBUG] [__init__:472][39m No controls to apply on 'rollback'
-[32m[2024-11-04 22:17:29 INFO] [rollback:33][39m No declared rollbacks, let's move on.
-[36m[2024-11-04 22:17:29 DEBUG] [__init__:472][39m No controls to apply on 'rollback'
-[32m[2024-11-04 22:17:29 INFO] [run:598][39m Experiment ended with status: completed
-[36m[2024-11-04 22:17:29 DEBUG] [__init__:472][39m No controls to apply on 'experiment'
-[36m[2024-11-04 22:17:29 DEBUG] [__init__:106][39m Cleaning up controls
-[36m[2024-11-04 22:17:29 DEBUG] [caching:42][39m Clearing activities cache
+[36m[2024-11-04 22:42:59 DEBUG] [__init__:101][39m ###############################################################################
+[36m[2024-11-04 22:42:59 DEBUG] [__init__:102][39m Running command 'run'
+[36m[2024-11-04 22:42:59 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
+[36m[2024-11-04 22:42:59 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
+[36m[2024-11-04 22:42:59 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:42:59 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:09 DEBUG] [__init__:101][39m ###############################################################################
+[36m[2024-11-04 22:43:09 DEBUG] [__init__:102][39m Running command 'run'
+[36m[2024-11-04 22:43:09 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
+[36m[2024-11-04 22:43:09 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
+[36m[2024-11-04 22:43:09 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:09 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:26 DEBUG] [__init__:101][39m ###############################################################################
+[36m[2024-11-04 22:43:26 DEBUG] [__init__:102][39m Running command 'run'
+[36m[2024-11-04 22:43:26 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
+[36m[2024-11-04 22:43:26 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
+[36m[2024-11-04 22:43:26 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:26 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:47 DEBUG] [__init__:101][39m ###############################################################################
+[36m[2024-11-04 22:43:47 DEBUG] [__init__:102][39m Running command 'run'
+[36m[2024-11-04 22:43:47 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
+[36m[2024-11-04 22:43:47 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
+[36m[2024-11-04 22:43:47 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:47 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:57 DEBUG] [__init__:101][39m ###############################################################################
+[36m[2024-11-04 22:43:57 DEBUG] [__init__:102][39m Running command 'run'
+[36m[2024-11-04 22:43:57 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
+[36m[2024-11-04 22:43:57 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
+[36m[2024-11-04 22:43:57 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:57 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:43:57 DEBUG] [caching:24][39m Building activity cache...
+[36m[2024-11-04 22:43:57 DEBUG] [caching:35][39m Cached 0 activities
+[32m[2024-11-04 22:43:57 INFO] [experiment:59][39m Validating the experiment's syntax
+[36m[2024-11-04 22:43:57 DEBUG] [configuration:64][39m Loading configuration...
+[36m[2024-11-04 22:43:57 DEBUG] [secret:79][39m Loading secrets...
+[36m[2024-11-04 22:43:57 DEBUG] [secret:104][39m Done loading secrets
+[36m[2024-11-04 22:43:57 DEBUG] [caching:42][39m Clearing activities cache
+[31m[2024-11-04 22:43:57 ERROR] [run:188][39m an experiment requires a method, which can be empty for only checking steady state hypothesis 
+[36m[2024-11-04 22:43:57 DEBUG] [run:189][39m an experiment requires a method, which can be empty for only checking steady state hypothesis 
+[36m[2024-11-04 22:44:39 DEBUG] [__init__:101][39m ###############################################################################
+[36m[2024-11-04 22:44:39 DEBUG] [__init__:102][39m Running command 'run'
+[36m[2024-11-04 22:44:39 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
+[36m[2024-11-04 22:44:39 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
+[36m[2024-11-04 22:44:39 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:44:39 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:44:39 DEBUG] [caching:24][39m Building activity cache...
+[36m[2024-11-04 22:44:39 DEBUG] [caching:35][39m Cached 0 activities
+[32m[2024-11-04 22:44:39 INFO] [experiment:59][39m Validating the experiment's syntax
+[36m[2024-11-04 22:44:39 DEBUG] [configuration:64][39m Loading configuration...
+[36m[2024-11-04 22:44:39 DEBUG] [secret:79][39m Loading secrets...
+[36m[2024-11-04 22:44:39 DEBUG] [secret:104][39m Done loading secrets
+[36m[2024-11-04 22:44:39 DEBUG] [caching:42][39m Clearing activities cache
+[31m[2024-11-04 22:44:39 ERROR] [run:188][39m an experiment requires a method, which can be empty for only checking steady state hypothesis 
+[36m[2024-11-04 22:44:39 DEBUG] [run:189][39m an experiment requires a method, which can be empty for only checking steady state hypothesis 
+[36m[2024-11-04 22:46:28 DEBUG] [__init__:101][39m ###############################################################################
+[36m[2024-11-04 22:46:28 DEBUG] [__init__:102][39m Running command 'run'
+[36m[2024-11-04 22:46:28 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
+[36m[2024-11-04 22:46:28 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
+[36m[2024-11-04 22:46:28 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:46:28 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:46:28 DEBUG] [caching:24][39m Building activity cache...
+[36m[2024-11-04 22:46:28 DEBUG] [caching:35][39m Cached 16 activities
+[32m[2024-11-04 22:46:28 INFO] [experiment:59][39m Validating the experiment's syntax
+[36m[2024-11-04 22:46:28 DEBUG] [configuration:64][39m Loading configuration...
+[36m[2024-11-04 22:46:28 DEBUG] [secret:79][39m Loading secrets...
+[36m[2024-11-04 22:46:28 DEBUG] [secret:104][39m Done loading secrets
+[36m[2024-11-04 22:46:28 DEBUG] [caching:42][39m Clearing activities cache
+[31m[2024-11-04 22:46:28 ERROR] [run:188][39m 'sequence' is not a supported activity type
+[36m[2024-11-04 22:46:28 DEBUG] [run:189][39m 'sequence' is not a supported activity type
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:101][39m ###############################################################################
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:102][39m Running command 'run'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:106][39m Using settings file 'C:\Users\jgmor\.chaostoolkit\settings.yaml'
+[36m[2024-11-04 22:46:47 DEBUG] [settings:31][39m The Chaos Toolkit settings file could not be found at 'C:\Users\jgmor\.chaostoolkit\settings.yaml'.
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'loader'
+[36m[2024-11-04 22:46:47 DEBUG] [caching:24][39m Building activity cache...
+[36m[2024-11-04 22:46:47 DEBUG] [caching:35][39m Cached 7 activities
+[32m[2024-11-04 22:46:47 INFO] [experiment:59][39m Validating the experiment's syntax
+[36m[2024-11-04 22:46:47 DEBUG] [configuration:64][39m Loading configuration...
+[36m[2024-11-04 22:46:47 DEBUG] [secret:79][39m Loading secrets...
+[36m[2024-11-04 22:46:47 DEBUG] [secret:104][39m Done loading secrets
+[32m[2024-11-04 22:46:47 INFO] [experiment:112][39m Experiment looks valid
+[36m[2024-11-04 22:46:47 DEBUG] [caching:42][39m Clearing activities cache
+[36m[2024-11-04 22:46:47 DEBUG] [run:224][39m Runtime strategies: hypothesis - default / rollbacks - default
+[36m[2024-11-04 22:46:47 DEBUG] [caching:24][39m Building activity cache...
+[36m[2024-11-04 22:46:47 DEBUG] [caching:35][39m Cached 7 activities
+[36m[2024-11-04 22:46:47 DEBUG] [configuration:64][39m Loading configuration...
+[36m[2024-11-04 22:46:47 DEBUG] [secret:79][39m Loading secrets...
+[36m[2024-11-04 22:46:47 DEBUG] [secret:104][39m Done loading secrets
+[36m[2024-11-04 22:46:47 DEBUG] [configuration:161][39m Loading dynamic configuration...
+[36m[2024-11-04 22:46:47 DEBUG] [exit:91][39m System 'Windows-11-10.0.22631-SP0' does not expose SIGUSR signals
+[32m[2024-11-04 22:46:47 INFO] [run:440][39m Running experiment: Chaos Experiment for Distributed Systems Containers
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:67][39m Initializing controls
+[32m[2024-11-04 22:46:47 INFO] [run:471][39m Steady-state strategy: default
+[32m[2024-11-04 22:46:47 INFO] [run:477][39m Rollbacks strategy: default
+[32m[2024-11-04 22:46:47 INFO] [run:485][39m No steady state hypothesis defined. That's ok, just exploring.
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'experiment'
+[32m[2024-11-04 22:46:47 INFO] [run:778][39m Playing your experiment's method now...
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'method'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[32m[2024-11-04 22:46:47 INFO] [activity:232][39m Probe: check_containers_running_before_chaos
+[36m[2024-11-04 22:46:47 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'ps', '--filter', 'name=sistemas_distribuidos-frontend-1', '--filter', 'name=sistemas_distribuidos-backend-1']
+[36m[2024-11-04 22:46:47 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'CONTAINER ID   IMAGE                            COMMAND                  CREATED       STATUS         PORTS                    NAMES\n5beb49d1f85e   sistemas_distribuidos-frontend   "/docker-entrypoint.…"   2 hours ago   Up 2 hours     0.0.0.0:3000->80/tcp     sistemas_distribuidos-frontend-1\n46468c1cb40e   sistemas_distribuidos-backend    "python app.py"          2 hours ago   Up 7 minutes   0.0.0.0:5000->5000/tcp   sistemas_distribuidos-backend-1\n', 'stderr': ''}'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[32m[2024-11-04 22:46:47 INFO] [activity:232][39m Action: inject_network_latency_on_frontend
+[36m[2024-11-04 22:46:47 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'exec', 'sistemas_distribuidos-frontend-1', 'tc', 'qdisc', 'add', 'dev', 'eth0', 'root', 'netem', 'delay', '1000ms', '500ms']
+[33m[2024-11-04 22:46:47 WARNING] [process:70][39m This process returned a non-zero exit code. This may indicate some error and not what you expected. Please have a look at the logs.
+[36m[2024-11-04 22:46:47 DEBUG] [activity:260][39m   => succeeded with '{'status': 126, 'stdout': 'OCI runtime exec failed: exec failed: unable to start container process: exec: "tc": executable file not found in $PATH: unknown\r\n', 'stderr': ''}'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[32m[2024-11-04 22:46:47 INFO] [activity:232][39m Probe: check_frontend_status_during_latency
+[36m[2024-11-04 22:46:47 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'inspect', '-f', '{{.State.Running}}', 'sistemas_distribuidos-frontend-1']
+[36m[2024-11-04 22:46:47 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'true\n', 'stderr': ''}'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[36m[2024-11-04 22:46:47 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[32m[2024-11-04 22:46:47 INFO] [activity:232][39m Action: stop_backend_container
+[36m[2024-11-04 22:46:47 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'stop', 'sistemas_distribuidos-backend-1']
+[36m[2024-11-04 22:46:58 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'sistemas_distribuidos-backend-1\n', 'stderr': ''}'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[32m[2024-11-04 22:46:58 INFO] [activity:232][39m Probe: check_frontend_status_during_backend_crash
+[36m[2024-11-04 22:46:58 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'inspect', '-f', '{{.State.Running}}', 'sistemas_distribuidos-frontend-1']
+[36m[2024-11-04 22:46:58 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'true\n', 'stderr': ''}'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[32m[2024-11-04 22:46:58 INFO] [activity:232][39m Action: restart_backend_container
+[36m[2024-11-04 22:46:58 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'start', 'sistemas_distribuidos-backend-1']
+[36m[2024-11-04 22:46:58 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'sistemas_distribuidos-backend-1\n', 'stderr': ''}'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[32m[2024-11-04 22:46:58 INFO] [activity:232][39m Probe: check_backend_status_after_restart
+[36m[2024-11-04 22:46:58 DEBUG] [process:52][39m Running: ['C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.EXE', 'inspect', '-f', '{{.State.Running}}', 'sistemas_distribuidos-backend-1']
+[36m[2024-11-04 22:46:58 DEBUG] [activity:260][39m   => succeeded with '{'status': 0, 'stdout': 'true\n', 'stderr': ''}'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'activity'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'method'
+[32m[2024-11-04 22:46:58 INFO] [run:1072][39m Let's rollback...
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'rollback'
+[32m[2024-11-04 22:46:58 INFO] [rollback:33][39m No declared rollbacks, let's move on.
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'rollback'
+[32m[2024-11-04 22:46:58 INFO] [run:598][39m Experiment ended with status: completed
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:472][39m No controls to apply on 'experiment'
+[36m[2024-11-04 22:46:58 DEBUG] [__init__:106][39m Cleaning up controls
+[36m[2024-11-04 22:46:58 DEBUG] [caching:42][39m Clearing activities cache

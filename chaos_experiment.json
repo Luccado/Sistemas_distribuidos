@@ -119,54 +119,6 @@
           "sistemas_distribuidos-backend-1"
         ]
       }
-    },
-    {
-      "name": "inject_cpu_hog_on_backend",
-      "type": "action",
-      "provider": {
-        "type": "process",
-        "path": "docker",
-        "arguments": [
-          "exec", "sistemas_distribuidos-backend-1",
-          "yes", " >", "/dev/null"
-        ]
-      }
-    },
-    {
-      "name": "inject_disk_failure_on_frontend",
-      "type": "action",
-      "provider": {
-        "type": "process",
-        "path": "docker",
-        "arguments": [
-          "exec", "sistemas_distribuidos-frontend-1",
-          "rm", "-rf", "/var/www/html"
-        ]
-      }
-    },
-    {
-      "name": "remove_network_latency_on_frontend",
-      "type": "action",
-      "provider": {
-        "type": "process",
-        "path": "docker",
-        "arguments": [
-          "exec", "sistemas_distribuidos-frontend-1",
-          "tc", "qdisc", "del", "dev", "eth0", "root", "netem"
-        ]
-      }
-    },
-    {
-      "name": "stop_cpu_hog_on_backend",
-      "type": "action",
-      "provider": {
-        "type": "process",
-        "path": "docker",
-        "arguments": [
-          "exec", "sistemas_distribuidos-backend-1",
-          "pkill", "-f", "yes > /dev/null"
-        ]
-      }
     }
   ]
 }
